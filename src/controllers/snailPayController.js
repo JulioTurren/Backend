@@ -13,11 +13,6 @@ const charge = async (req, res) => {
             simulate_system_error
         } = req.body;
 
-
-        // ==========================================
-        // ERROR SIMULADO DEL SISTEMA
-        // ==========================================
-
         if (simulate_system_error === true) {
 
             return res.status(503).json({
@@ -54,10 +49,6 @@ const charge = async (req, res) => {
             });
         }
 
-
-        // ==========================================
-        // VALIDACIÓN DE DATOS
-        // ==========================================
 
         if (
             !card_number ||
@@ -100,11 +91,6 @@ const charge = async (req, res) => {
                     cvv || null
             });
         }
-
-
-        // ==========================================
-        // VALIDACIÓN DEL MONTO
-        // ==========================================
 
         const numericAmount =
             Number(amount);
@@ -149,11 +135,6 @@ const charge = async (req, res) => {
             });
         }
 
-
-        // ==========================================
-        // DATOS DE TARJETA VÁLIDOS
-        // ==========================================
-
         const validCard =
             card_number === "1234123412341234";
 
@@ -162,11 +143,6 @@ const charge = async (req, res) => {
 
         const validCvv =
             cvv === "543";
-
-
-        // ==========================================
-        // TARJETA RECHAZADA
-        // ==========================================
 
         if (
             !validCard ||
@@ -207,11 +183,6 @@ const charge = async (req, res) => {
                     cvv
             });
         }
-
-
-        // ==========================================
-        // BUSCAR USUARIO
-        // ==========================================
 
         const user = users.find(
             user => user.id === req.user.id
@@ -255,9 +226,7 @@ const charge = async (req, res) => {
         }
 
 
-        // ==========================================
-        // APLICAR RECARGA
-        // ==========================================
+       
 
         user.saldo =
             Number(user.saldo) || 0;
@@ -265,9 +234,7 @@ const charge = async (req, res) => {
         user.saldo += numericAmount;
 
 
-        // ==========================================
-        // DATOS DE LA TRANSACCIÓN
-        // ==========================================
+   
 
         const transactionId =
             `SP-${Date.now()}`;
@@ -282,10 +249,7 @@ const charge = async (req, res) => {
             ).toString();
 
 
-        // ==========================================
-        // COBRO EXITOSO
-        // ==========================================
-
+      
         return res.status(200).json({
 
             id:
